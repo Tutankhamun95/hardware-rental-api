@@ -1,66 +1,277 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Hardware Rental API
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A scalable and optimized API for a Hardware Rental Service built with Laravel. This project demonstrates a real-world solution that supports product rentals with regional pricing variations, filtering, pagination, and comprehensive testing.
 
-## About Laravel
+## Table of Contents
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Overview](#overview)
+- [Features](#features)
+- [Database Schema](#database-schema)
+- [Installation](#installation)
+- [Setup Instructions](#setup-instructions)
+- [Running Migrations and Seeders](#running-migrations-and-seeders)
+- [API Endpoints](#api-endpoints)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Additional Notes](#additional-notes)
+- [License](#license)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Overview
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+This project implements a Product Rental API that allows users to:
+- Retrieve complete product details including attributes, rental periods, and regional pricing.
+- Filter products based on region, rental period, category, and availability.
+- Paginate large datasets for optimal performance.
 
-## Learning Laravel
+The API is designed for scalability and optimized performance, reflecting real-world engineering challenges.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Efficient Database Schema:**  
+  Supports products, attributes (with values), rental periods (3, 6, and 12 months), regions (e.g., Singapore and Malaysia), and product pricing.
+  
+- **Robust Eloquent Models & Relationships:**  
+  Models include Product, Attribute, AttributeValue, RentalPeriod, Region, and ProductPricing with properly defined relationships (one-to-many, many-to-many).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Optimized API Endpoints:**  
+  Implements endpoints in `routes/api.php` with eager loading, filtering, and pagination to efficiently handle huge datasets.
 
-## Laravel Sponsors
+- **Advanced Filtering:**  
+  Allows filtering of products by region, rental period, category, and availability.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Comprehensive Testing:**  
+  Includes unit and feature tests to validate API behavior.
 
-### Premium Partners
+- **Detailed Documentation & Deployment Instructions:**  
+  Comes with complete setup instructions and an advanced README file.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+## Database Schema
 
-## Contributing
+The database is designed to be highly normalized and scalable. Key tables include:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **products:**  
+  Stores product details (name, description, SKU, category, etc.).
+  
+- **attributes & attribute_values:**  
+  Allow each product to have multiple attributes with specific values (e.g., a laptop may have RAM, HDD Size, Screen Size, and CPU).
 
-## Code of Conduct
+- **rental_periods:**  
+  Define available rental durations (3, 6, and 12 months).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+- **regions:**  
+  Represent geographical regions (e.g., Singapore, Malaysia) with different pricing rules.
 
-## Security Vulnerabilities
+- **product_pricing:**  
+  Associates products with rental periods and regions, defining rental prices.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+- **inventory:**  
+  Tracks product availability per region.
 
-## License
+For complete column definitions, please refer to the migration files in the `database/migrations` directory.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Installation
+
+1. **Clone the Repository:**
+
+   ```bash
+   git clone https://github.com/Tutankhamun95/hardware-rental-api.git
+   cd hardware-rental-api
+   ```
+
+2. **Install Dependencies:**
+
+   ```bash
+   composer install
+   ```
+
+3. **Environment Setup:**
+
+   - Copy the `.env.example` file to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Update the `.env` file with your database credentials and other necessary configurations.
+   - Generate the application key:
+     ```bash
+     php artisan key:generate
+     ```
+
+## Setup Instructions
+
+1. **Database Setup:**
+
+   - Create a new database (e.g., `hardware_rental_api`) on your MySQL server.
+   - Update your `.env` file with the database name, username, and password.
+
+2. **Run Migrations:**
+
+   ```bash
+   php artisan migrate
+   ```
+
+3. **Seed the Database:**
+
+   This project includes seeders that populate the database with 30 products and a wide variety of rental pricing scenarios (including different availability across regions and rental periods).
+
+   ```bash
+   php artisan db:seed
+   ```
+
+## API Endpoints
+
+The API endpoints are defined in the `routes/api.php` file and are automatically prefixed with `/api`.
+
+### List Products
+
+- **Endpoint:** `GET /api/products`
+- **Description:** Retrieves a paginated list of products with filtering options.
+- **Query Parameters (Optional):**
+  - `region`: Filter by region ID.
+  - `rental_period`: Filter by rental period ID.
+  - `category`: Filter by category ID.
+  - `availability`: Filter by inventory status (`available` or `out_of_stock`).
+  - `query`: Search term for product name, SKU, or description.
+
+- **Example Request:**
+
+  ```bash
+  curl -X GET "http://localhost:8000/api/products?region=1&rental_period=1"
+  ```
+
+- **Sample Response:**
+
+  ```json
+  {
+    "status": "success",
+    "message": "Products retrieved successfully",
+    "data": {
+      "products": [
+        {
+          "id": 1,
+          "name": "Product 1",
+          "description": "Description for Product 1",
+          "sku": "SKU-1",
+          "attributes": [
+            {
+              "id": 1,
+              "name": "RAM",
+              "pivot_value": "16GB"
+            },
+            // More attributes...
+          ],
+          "pricing": [
+            {
+              "id": 1,
+              "price": "108.00",
+              "rental_period": {
+                "id": 1,
+                "duration": 3,
+                "label": "3 months"
+              },
+              "region": {
+                "id": 2,
+                "name": "Malaysia"
+              }
+            }
+            // More pricing...
+          ],
+          "inventory": [
+            {
+              "id": 1,
+              "quantity": 48,
+              "status": "out_of_stock"
+            }
+            // More inventory...
+          ],
+          "created_at": "2025-02-26T23:04:29.000000Z",
+          "updated_at": "2025-02-26T23:04:29.000000Z"
+        }
+        // More products...
+      ],
+      "pagination": {
+        "total": 30,
+        "per_page": 10,
+        "current_page": 1,
+        "last_page": 3
+      }
+    }
+  }
+  ```
+
+### Get Single Product
+
+- **Endpoint:** `GET /api/products/{id}`
+- **Description:** Retrieves detailed information about a specific product.
+
+- **Example Request:**
+
+  ```bash
+  curl -X GET "http://localhost:8000/api/products/1"
+  ```
+
+- **Sample Response:**
+
+  ```json
+  {
+    "status": "success",
+    "message": "Product retrieved successfully",
+    "data": {
+      "id": 1,
+      "name": "Product 1",
+      "description": "Description for Product 1",
+      "sku": "SKU-1",
+      "attributes": [ /* attribute details */ ],
+      "pricing": [ /* pricing details */ ],
+      "inventory": [ /* inventory details */ ],
+      "created_at": "2025-02-26T23:04:29.000000Z",
+      "updated_at": "2025-02-26T23:04:29.000000Z"
+    }
+  }
+  ```
+
+## Testing
+
+This project includes both unit and feature tests.
+
+1. **Run the Test Suite:**
+
+   ```bash
+   php artisan test
+   ```
+
+2. **Test Coverage:**
+   - **Feature Tests:** Validate API endpoints (ProductControllerTest).
+   - **Unit Tests:** Test business logic in ProductService and transformation logic in ProductResource.
+
+## Deployment
+
+For production deployment, consider these steps:
+
+- **Environment:**  
+  Set environment variables in your production `.env` file.
+  
+- **HTTPS:**  
+  Use HTTPS for secure communication.
+  
+- **Scaling:**  
+  Consider using load balancers and read replicas if your API experiences high traffic.
+  
+- **Deployment Platforms:**  
+  Platforms like [Laravel Forge](https://forge.laravel.com/), [Heroku](https://www.heroku.com/), or Docker containers can be used for deployment.
+  
+- **Monitoring & Logging:**  
+  Integrate tools like Laravel Telescope, Sentry, or ELK stack for monitoring performance and logging errors.
+
+## Additional Notes
+
+- **Caching:**  
+  Use Laravel’s caching mechanisms (e.g., Redis) to cache frequently accessed data.
+  
+- **Query Optimization:**  
+  Utilize eager loading, selective column retrieval, and proper indexing on your database tables.
+  
+- **API Versioning:**  
+  Consider versioning your API endpoints (e.g., `/api/v1/products`) to manage future changes without breaking existing clients.
+
+- **Continuous Integration:**  
+  Set up CI/CD pipelines for automated testing and deployment.
